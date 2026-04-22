@@ -3,110 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mint Intelligence | Jarvis 3.0</title>
+    <title>Mint Intelligence | AI OS v4.0</title>
     
     <script>(function(s){s.dataset.zone='10910578',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-        :root { --j-blue: #00d2ff; --j-green: #00ff88; --j-red: #ff3e3e; --bg: #050a0f; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
 
-        body, html { margin: 0; padding: 0; background: var(--bg); color: #fff; font-family: 'Orbitron', sans-serif; overflow-x: hidden; }
-
-        /* 🌌 CYBER MATRIX BACKGROUND */
-        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
-
-        header {
-            padding: 20px; text-align: center; background: rgba(0,0,0,0.85);
-            border-bottom: 2px solid var(--j-blue); box-shadow: 0 0 20px var(--j-blue);
-            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(5px);
+        :root {
+            --j-blue: #00d2ff;
+            --j-green: #00ff88;
+            --j-red: #ff3e3e;
+            --bg-black: #050a0f;
+            --glass: rgba(255, 255, 255, 0.03);
+            --neon-glow: 0 0 15px var(--j-blue);
         }
 
-        /* 🤖 PERSONALITY SELECTOR */
-        .ai-selector { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        * { box-sizing: border-box; }
+        body, html { 
+            margin: 0; padding: 0; background: var(--bg-black); color: #fff; 
+            font-family: 'Orbitron', sans-serif; overflow-x: hidden;
+        }
+
+        /* 🌌 MATRIX & SCANLINES */
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.12; }
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(0, 210, 255, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 210, 255, 0.02));
+            background-size: 100% 4px, 3px 100%; pointer-events: none; z-index: 1000;
+        }
+
+        /* 🍔 NAVIGATION & SIDEBAR */
+        header {
+            padding: 15px; text-align: center; background: rgba(0,0,0,0.9);
+            border-bottom: 2px solid var(--j-blue); box-shadow: var(--neon-glow);
+            position: sticky; top: 0; z-index: 1001; backdrop-filter: blur(10px);
+        }
+
+        .menu-icon {
+            position: absolute; left: 20px; top: 22px; cursor: pointer;
+        }
+        .menu-icon div { width: 25px; height: 2px; background: var(--j-blue); margin: 5px 0; transition: 0.3s; }
+
+        .sidebar {
+            position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+            background: rgba(5, 10, 15, 0.98); border-right: 1px solid var(--j-blue);
+            transition: 0.5s cubic-bezier(0.77,0,0.175,1); z-index: 2000; padding-top: 80px;
+        }
+        .sidebar.active { left: 0; box-shadow: 20px 0 50px rgba(0,0,0,0.8); }
+
+        .side-item {
+            display: block; padding: 18px 30px; color: #aaa; text-decoration: none;
+            font-size: 12px; letter-spacing: 2px; border-bottom: 1px solid rgba(0,210,255,0.1);
+            transition: 0.3s;
+        }
+        .side-item:hover { color: var(--j-blue); background: rgba(0,210,255,0.05); border-left: 5px solid var(--j-blue); }
+
+        /* 🤖 AI SELECTOR */
+        .personality { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
         .ai-btn { 
-            font-size: 9px; padding: 5px 10px; border: 1px solid var(--j-blue); 
-            background: transparent; color: var(--j-blue); cursor: pointer; border-radius: 3px;
+            font-size: 8px; padding: 4px 10px; border: 1px solid var(--j-blue); 
+            background: transparent; color: var(--j-blue); cursor: pointer; border-radius: 2px;
         }
         .ai-btn.active { background: var(--j-blue); color: #000; box-shadow: 0 0 10px var(--j-blue); }
 
-        .container { padding: 15px; max-width: 700px; margin: auto; position: relative; z-index: 1; }
-
-        /* 🎭 MOOD TAGS */
-        .mood-tag {
-            display: inline-block; padding: 4px 10px; font-size: 9px; border-radius: 4px;
-            margin-bottom: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
+        /* 💹 TICKER PATTI */
+        .ticker-wrap { background: rgba(0, 210, 255, 0.05); border-bottom: 1px solid rgba(0,210,255,0.2); overflow: hidden; padding: 6px 0; }
+        .ticker { 
+            display: inline-block; white-space: nowrap; font-family: 'Share Tech Mono';
+            font-size: 11px; color: var(--j-blue); animation: marquee 25s linear infinite; 
         }
-        .mood-critical { background: rgba(255, 62, 62, 0.2); color: var(--j-red); border: 1px solid var(--j-red); box-shadow: 0 0 10px var(--j-red); }
-        .mood-positive { background: rgba(0, 255, 136, 0.2); color: var(--j-green); border: 1px solid var(--j-green); box-shadow: 0 0 10px var(--j-green); }
-        .mood-tech { background: rgba(0, 210, 255, 0.2); color: var(--j-blue); border: 1px solid var(--j-blue); box-shadow: 0 0 10px var(--j-blue); }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* 📊 MAIN CONTAINER */
+        .container { padding: 20px; max-width: 850px; margin: auto; z-index: 5; position: relative; }
 
         .news-card {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 210, 255, 0.15);
-            border-radius: 15px; margin-bottom: 25px; padding: 15px; transition: 0.3s;
+            background: var(--glass); border: 1px solid rgba(0, 210, 255, 0.15);
+            border-radius: 0 30px 0 30px; margin-bottom: 35px; overflow: hidden;
+            transition: 0.4s ease; backdrop-filter: blur(2px);
         }
-        .news-card:hover { border-color: var(--j-blue); transform: translateY(-3px); }
+        .news-card:hover { border-color: var(--j-blue); box-shadow: 0 0 20px rgba(0, 210, 255, 0.1); transform: translateY(-5px); }
 
-        .news-img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; }
-        .news-title { font-size: 15px; margin-bottom: 15px; line-height: 1.4; }
+        .news-img { width: 100%; height: 240px; object-fit: cover; border-bottom: 1px solid var(--j-blue); filter: brightness(0.8); }
 
-        .jarvis-btn {
-            background: transparent; border: 1px solid var(--j-blue); color: var(--j-blue);
-            padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; font-family: 'Orbitron';
-            font-size: 10px; transition: 0.3s;
+        .card-body { padding: 20px; }
+        
+        .mood-tag {
+            font-size: 10px; padding: 3px 12px; border-radius: 4px; font-weight: bold;
+            text-transform: uppercase; margin-bottom: 15px; display: inline-block;
+            letter-spacing: 1px;
         }
-        .jarvis-btn:hover { background: var(--j-blue); color: #000; }
 
-        .ai-box { display: none; margin-top: 15px; padding: 12px; border-left: 2px solid var(--j-blue); background: rgba(0, 210, 255, 0.05); font-size: 12px; color: #a0c4ff; line-height: 1.6; }
+        .title { font-size: 18px; margin-bottom: 15px; color: #fff; line-height: 1.4; }
+
+        .btn-group { display: flex; gap: 12px; }
+        .btn {
+            flex: 1; padding: 12px; border: 1px solid var(--j-blue); border-radius: 5px;
+            background: transparent; color: var(--j-blue); font-family: 'Orbitron';
+            font-size: 11px; cursor: pointer; transition: 0.3s;
+        }
+        .btn:hover { background: var(--j-blue); color: #000; box-shadow: 0 0 15px var(--j-blue); }
+
+        /* ⌨️ TYPEWRITER OUTPUT */
+        .ai-terminal {
+            display: none; margin-top: 20px; padding: 15px;
+            background: rgba(0,0,0,0.5); border-left: 3px solid var(--j-blue);
+            font-family: 'Share Tech Mono'; font-size: 13px; color: var(--j-green);
+            line-height: 1.6; min-height: 50px;
+        }
+
+        /* 📅 ECONOMIC CALENDAR TABLE */
+        .calendar-sec { display: none; background: rgba(255,255,255,0.02); border-radius: 10px; padding: 20px; margin-top: 20px; border: 1px solid var(--j-blue); }
+        .calendar-sec h2 { color: var(--j-blue); font-size: 16px; margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(0,210,255,0.1); }
+        th { color: var(--j-blue); }
     </style>
 </head>
 <body>
 
+    <div class="scanlines"></div>
     <canvas id="matrix-canvas"></canvas>
 
+    <div class="sidebar" id="sidebar">
+        <a href="/" class="side-item">🌐 GLOBAL DASHBOARD</a>
+        <a href="/?category=business" class="side-item">💹 FOREX TERMINAL</a>
+        <a href="/?category=technology" class="side-item">🪙 CRYPTO PULSE</a>
+        <a href="/?category=science" class="side-item">📊 STOCKS / F&O</a>
+        <a href="#" class="side-item" onclick="toggleCalendar()">📅 ECONOMIC CALENDAR</a>
+        <a href="#" class="side-item" style="color: var(--j-red);">⚠️ SYSTEM REBOOT</a>
+    </div>
+
     <header>
-        <h1>MINT INTELLIGENCE</h1>
-        <div class="ai-selector">
-            <button class="ai-btn active" onclick="setAI('Jarvis', 0.8, 0.9)">JARVIS</button>
-            <button class="ai-btn" onclick="setAI('Friday', 1.2, 1.1)">FRIDAY</button>
+        <div class="menu-icon" onclick="toggleSidebar()">
+            <div></div><div></div><div></div>
+        </div>
+        <h1 onclick="window.location.reload()">MINT INTELLIGENCE</h1>
+        <div class="personality">
+            <button class="ai-btn active" id="btn-jarvis" onclick="setPersona('Jarvis', 0.8, 0.9)">JARVIS</button>
+            <button class="ai-btn" id="btn-friday" onclick="setPersona('Friday', 1.2, 1.1)">FRIDAY</button>
         </div>
     </header>
 
+    <div class="ticker-wrap">
+        <div class="ticker" id="live-ticker">
+            LOADING LIVE FEED... EURUSD: 1.0824 [OPEN] | BTC: $64,120.40 ▼ 1.2% | GOLD: $2312.50 ▲ | NEXT NFP: 15:30 GMT | FOMC MEETING IN 2 DAYS | TRADING SYSTEMS OPTIMAL
+        </div>
+    </div>
+
     <div class="container">
+        
+        <div id="calendar-sec" class="calendar-sec">
+            <h2>ECONOMIC CALENDAR - HIGH IMPACT</h2>
+            <table>
+                <tr><th>TIME (GMT)</th><th>CURRENCY</th><th>EVENT</th><th>IMPACT</th></tr>
+                <tr><td>13:00</td><td>USD</td><td>CPI y/y</td><td style="color:var(--j-red)">HIGH</td></tr>
+                <tr><td>15:30</td><td>GBP</td><td>GDP Report</td><td style="color:var(--j-blue)">MED</td></tr>
+                <tr><td>18:00</td><td>USD</td><td>FOMC Minutes</td><td style="color:var(--j-red)">HIGH</td></tr>
+            </table>
+        </div>
+
         {% for a in articles %}
         <div class="news-card">
-            {% if 'war' in a.title.lower() or 'death' in a.title.lower() or 'loss' in a.title.lower() %}
-                <span class="mood-tag mood-critical">🔴 CRITICAL</span>
-            {% elif 'ai' in a.title.lower() or 'tech' in a.title.lower() or 'launch' in a.title.lower() %}
-                <span class="mood-tag mood-tech">🔵 TECH UPGRADE</span>
+            {% set title_lower = a.title|lower %}
+            {% if 'war' in title_lower or 'death' in title_lower or 'crash' in title_lower or 'down' in title_lower %}
+                <span class="mood-tag" style="border:1px solid var(--j-red); color:var(--j-red); background:rgba(255,62,62,0.1)">🔴 CRITICAL RISK</span>
+            {% elif 'ai' in title_lower or 'launch' in title_lower or 'tech' in title_lower %}
+                <span class="mood-tag" style="border:1px solid var(--j-blue); color:var(--j-blue); background:rgba(0,210,255,0.1)">🔵 TECH UPGRADE</span>
             {% else %}
-                <span class="mood-tag mood-positive">🟢 POSITIVE VIBE</span>
+                <span class="mood-tag" style="border:1px solid var(--j-green); color:var(--j-green); background:rgba(0,255,136,0.1)">🟢 OPTIMAL VIBE</span>
             {% endif %}
 
             <img src="{{ a.urlToImage }}" class="news-img" loading="lazy">
-            <h3 class="news-title">{{ a.title }}</h3>
-            
-            <button class="jarvis-btn" onclick="analyze('{{ loop.index }}', '{{ a.full_desc|replace("'", "")|replace("\n", " ") }}')">INITIALIZE DATA UPLINK</button>
-            <div id="ai-{{ loop.index }}" class="ai-box"></div>
+            <div class="card-body">
+                <h3 class="title">{{ a.title }}</h3>
+                <div class="btn-group">
+                    <button class="btn" onclick="startAI('{{ loop.index }}', '{{ a.full_desc|replace("'", "")|replace("\n", " ") }}')">⚡ INITIALIZE AI</button>
+                    <a href="{{ a.url }}" target="_blank" style="flex:1;"><button class="btn">🔗 FULL UPLINK</button></a>
+                </div>
+                <div id="ai-{{ loop.index }}" class="ai-terminal"></div>
+            </div>
         </div>
+
+        {% if loop.index % 2 == 0 %}
+        <div style="text-align:center; margin-bottom:20px;">
+            <script>(function(s){s.dataset.zone='10910514',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+        </div>
+        {% endif %}
         {% endfor %}
     </div>
 
     <script>
-        // 🌌 MATRIX EFFECT
+        // --- 🌌 MATRIX ANIMATION ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        const fontSize = 10;
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$¥€";
+        const fontSize = 11;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
-
         function drawMatrix() {
             ctx.fillStyle = "rgba(5, 10, 15, 0.1)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "#00d2ff";
-            ctx.font = fontSize + "px Orbitron";
+            ctx.font = fontSize + "px 'Share Tech Mono'";
             drops.forEach((y, i) => {
                 const text = letters[Math.floor(Math.random() * letters.length)];
                 ctx.fillText(text, i * fontSize, y * fontSize);
@@ -116,31 +218,54 @@
         }
         setInterval(drawMatrix, 50);
 
-        // 🤖 AI SETTINGS
-        let currentVoice = { pitch: 0.8, rate: 0.9, name: 'Jarvis' };
-        function setAI(name, pitch, rate) {
-            currentVoice = { pitch, rate, name };
-            document.querySelectorAll('.ai-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            const msg = new SpeechSynthesisUtterance(name + " online. Awaiting orders.");
-            msg.pitch = pitch; msg.rate = rate;
-            window.speechSynthesis.speak(msg);
+        // --- 📂 NAVIGATION ---
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
+        function toggleCalendar() { 
+            const sec = document.getElementById('calendar-sec');
+            sec.style.display = (sec.style.display === 'block') ? 'none' : 'block';
+            toggleSidebar();
         }
 
-        function analyze(id, text) {
-            const box = document.getElementById('ai-'+id);
-            box.style.display = "block";
-            box.innerHTML = "ACCESSING SECURE SERVER...";
+        // --- 🤖 AI PERSONALITY & VOICE ---
+        let persona = { name: 'Jarvis', pitch: 0.8, rate: 0.9 };
+        function setPersona(name, p, r) {
+            persona = { name: name, pitch: p, rate: r };
+            document.querySelectorAll('.ai-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + name.toLowerCase()).classList.add('active');
+            const msg = new SpeechSynthesisUtterance(name + " OS online. Data streams synchronized.");
+            msg.pitch = p; msg.rate = r; window.speechSynthesis.speak(msg);
+        }
+
+        // --- ⌨️ TYPEWRITER & AI LOGIC ---
+        function typeWriter(text, elementId) {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            element.innerHTML = ""; 
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 30);
+                }
+            }
+            type();
+        }
+
+        function startAI(id, text) {
+            const output = document.getElementById('ai-'+id);
+            output.style.display = "block";
+            output.innerHTML = "> INITIATING HEURISTIC ANALYSIS...";
 
             fetch('/analyze', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({summary: text})
             }).then(res => res.json()).then(data => {
-                box.innerHTML = `<strong>${currentVoice.name.toUpperCase()} INSIGHT:</strong><br>${data.result}`;
+                const resultText = `[${persona.name.toUpperCase()} LOG]: ` + data.result;
+                typeWriter(resultText, 'ai-'+id);
+                
                 const speech = new SpeechSynthesisUtterance(data.result);
-                speech.pitch = currentVoice.pitch;
-                speech.rate = currentVoice.rate;
+                speech.pitch = persona.pitch; speech.rate = persona.rate;
                 window.speechSynthesis.speak(speech);
             });
         }
