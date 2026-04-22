@@ -1,73 +1,205 @@
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mint Intelligence</title>
+    <title>Mint Intelligence | Jarvis Edition</title>
     
     <script>(function(s){s.dataset.zone='10910578',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
     <style>
-        :root { --mint: #98FF98; --dark: #1a3a16; }
-        body { background: #f7fff7; font-family: sans-serif; margin: 0; padding: 10px; }
-        .nav-cats { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; margin-bottom: 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-        .cat-btn { background: white; border: 1px solid var(--mint); padding: 8px 15px; border-radius: 20px; text-decoration: none; color: var(--dark); font-size: 12px; white-space: nowrap; transition: 0.3s; }
-        .cat-btn.active { background: var(--mint); font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .card { background: white; border-radius: 20px; padding: 15px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(152, 255, 152, 0.3); }
-        .card img { width: 100%; border-radius: 15px; height: 180px; object-fit: cover; }
-        h3 { font-size: 15px; color: var(--dark); margin: 10px 0; line-height: 1.4; }
-        .btn-box { display: flex; gap: 10px; margin-top: 10px; }
-        .btn { flex: 1; padding: 10px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; transition: 0.2s; }
-        .btn:active { transform: scale(0.95); }
-        .btn-ai { background: var(--mint); color: var(--dark); }
-        .btn-link { background: #f0f0f0; color: #555; }
-        .ai-output { display: none; background: #e6ffe6; padding: 12px; border-radius: 12px; margin-top: 10px; border-left: 4px solid var(--mint); font-size: 12px; color: #333; white-space: pre-wrap; }
-        .ad-label { font-size: 9px; color: #ccc; text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        :root {
+            --jarvis-blue: #00d2ff;
+            --jarvis-glow: rgba(0, 210, 255, 0.5);
+            --bg-dark: #050a0f;
+            --card-glass: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Orbitron', sans-serif; /* Futuristic font */
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Scanline Effect (Jarvis Style) */
+        body::before {
+            content: " ";
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        header {
+            padding: 30px 15px;
+            text-align: center;
+            border-bottom: 2px solid var(--jarvis-blue);
+            box-shadow: 0 0 20px var(--jarvis-glow);
+            background: rgba(0,0,0,0.8);
+        }
+
+        header h1 {
+            font-size: 26px;
+            letter-spacing: 4px;
+            color: var(--jarvis-blue);
+            text-shadow: 0 0 10px var(--jarvis-blue);
+        }
+
+        .nav-scroll {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 20px;
+            scrollbar-width: none;
+        }
+
+        .cat-btn {
+            background: transparent;
+            border: 1px solid var(--jarvis-blue);
+            color: var(--jarvis-blue);
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .cat-btn.active {
+            background: var(--jarvis-blue);
+            color: #000;
+            box-shadow: 0 0 15px var(--jarvis-blue);
+        }
+
+        .container { padding: 20px; }
+
+        .news-card {
+            background: var(--card-glass);
+            border: 1px solid rgba(0, 210, 255, 0.2);
+            border-radius: 0 20px 0 20px; /* Angular Jarvis cut */
+            margin-bottom: 30px;
+            padding: 15px;
+            position: relative;
+            transition: 0.4s;
+        }
+
+        .news-card:hover {
+            border-color: var(--jarvis-blue);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+        }
+
+        .news-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0 15px 0 15px;
+            filter: grayscale(30%) brightness(80%);
+        }
+
+        .news-title {
+            margin: 15px 0;
+            font-size: 18px;
+            color: var(--jarvis-blue);
+        }
+
+        .jarvis-btn {
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid var(--jarvis-blue);
+            color: var(--jarvis-blue);
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        .jarvis-btn:hover { background: var(--jarvis-blue); color: #000; }
+
+        .ai-output {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 210, 255, 0.05);
+            border-left: 2px solid var(--jarvis-blue);
+            font-size: 13px;
+            color: #a0c4ff;
+            line-height: 1.6;
+        }
+
+        /* Voice wave effect */
+        .wave {
+            height: 3px; width: 10px; background: var(--jarvis-blue); display: inline-block; margin-left: 2px;
+            animation: bounce 0.5s infinite;
+        }
+        @keyframes bounce { 0%, 100% { height: 3px; } 50% { height: 10px; } }
+
     </style>
 </head>
 <body>
-    <h2 style="text-align: center; color: var(--dark); margin: 10px 0;">🌿 Mint Intelligence</h2>
-    
-    <div class="nav-cats">
-        <a href="/?category=top" class="cat-btn {% if current_cat == 'top' %}active{% endif %}">🔥 Top News</a>
-        <a href="/?category=business" class="cat-btn {% if current_cat == 'business' %}active{% endif %}">💰 Business</a>
-        <a href="/?category=technology" class="cat-btn {% if current_cat == 'technology' %}active{% endif %}">💻 Tech</a>
-        <a href="/?category=sports" class="cat-btn {% if current_cat == 'sports' %}active{% endif %}">⚽ Sports</a>
-        <a href="/?category=entertainment" class="cat-btn {% if current_cat == 'entertainment' %}active{% endif %}">🎬 Movie</a>
+
+    <header>
+        <h1>MINT INTELLIGENCE</h1>
+        <p style="font-size: 10px; color: #555;">SYSTEM STATUS: ONLINE</p>
+    </header>
+
+    <div class="nav-scroll">
+        <a href="/?category=top" class="cat-btn {% if current_cat == 'top' %}active{% endif %}">GLOBAL</a>
+        <a href="/?category=technology" class="cat-btn {% if current_cat == 'technology' %}active{% endif %}">SYSTEMS</a>
+        <a href="/?category=business" class="cat-btn {% if current_cat == 'business' %}active{% endif %}">CREDITS</a>
+        <a href="/?category=sports" class="cat-btn {% if current_cat == 'sports' %}active{% endif %}">COMBAT</a>
     </div>
 
-    {% for a in articles %}
-    <div class="card">
-        <img src="{{ a.urlToImage }}">
-        <h3>{{ a.title }}</h3>
-        <div class="btn-box">
-            <button class="btn btn-ai" onclick="analyze('{{ loop.index }}', '{{ a.full_desc|replace("'", "") }}')">⚡ Quick Summary</button>
-            <a href="{{ a.url }}" target="_blank" style="flex:1;"><button class="btn btn-link">🔗 Full Story</button></a>
+    <div class="container">
+        {% for a in articles %}
+        <div class="news-card">
+            <img src="{{ a.urlToImage }}" class="news-img">
+            <h3 class="news-title">{{ a.title }}</h3>
+            
+            <button class="jarvis-btn" onclick="initiateAI('{{ loop.index }}', '{{ a.full_desc|replace("'", "") }}')">
+                INITIALIZE AI ANALYSIS
+            </button>
+
+            <div id="ai-{{ loop.index }}" class="ai-output"></div>
         </div>
-        <div id="res-{{ loop.index }}" class="ai-output"></div>
-    </div>
 
-    {% if loop.index % 2 == 0 %}
-    <div style="text-align:center; padding: 10px;">
-        <div class="ad-label">ADVERTISEMENT</div>
-        <script>(function(s){s.dataset.zone='10910514',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+        {% if loop.index % 2 == 0 %}
+        <div style="text-align:center; margin: 20px 0;">
+            <p style="font-size: 8px; color: #333;">SECURE AD CHANNEL</p>
+            <script>(function(s){s.dataset.zone='10910514',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+        </div>
+        {% endif %}
+        {% endfor %}
     </div>
-    {% endif %}
-
-    {% endfor %}
 
     <script>
-        async function analyze(id, summary) {
-            const resBox = document.getElementById('res-'+id);
-            resBox.style.display = "block";
-            resBox.innerText = "Processing summary...";
+        function initiateAI(id, text) {
+            const output = document.getElementById('ai-'+id);
+            output.style.display = "block";
+            output.innerHTML = "ANALYZING DATA STREAM... <div class='wave'></div><div class='wave' style='animation-delay: 0.1s'></div><div class='wave' style='animation-delay: 0.2s'></div>";
 
-            const res = await fetch('/analyze', {
+            fetch('/analyze', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({summary: summary})
+                body: JSON.stringify({summary: text})
+            }).then(res => res.json())
+            .then(data => {
+                output.innerHTML = "<strong>SYSTEM INSIGHT:</strong><br>" + data.result;
+                // Voice Synthesis
+                const speech = new SpeechSynthesisUtterance(data.result);
+                speech.rate = 1.1;
+                speech.pitch = 0.9; // Deep voice like Jarvis
+                window.speechSynthesis.speak(speech);
             });
-            const data = await res.json();
-            resBox.innerText = data.result;
         }
     </script>
 </body>
