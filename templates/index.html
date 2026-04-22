@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mint Intelligence</title>
+    
+    <script>(function(s){s.dataset.zone='10910578',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+    <style>
+        :root { --mint: #98FF98; --dark: #1a3a16; }
+        body { background: #f7fff7; font-family: sans-serif; margin: 0; padding: 10px; }
+        .nav-cats { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; margin-bottom: 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .cat-btn { background: white; border: 1px solid var(--mint); padding: 8px 15px; border-radius: 20px; text-decoration: none; color: var(--dark); font-size: 12px; white-space: nowrap; transition: 0.3s; }
+        .cat-btn.active { background: var(--mint); font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card { background: white; border-radius: 20px; padding: 15px; margin-bottom: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid rgba(152, 255, 152, 0.3); }
+        .card img { width: 100%; border-radius: 15px; height: 180px; object-fit: cover; }
+        h3 { font-size: 15px; color: var(--dark); margin: 10px 0; line-height: 1.4; }
+        .btn-box { display: flex; gap: 10px; margin-top: 10px; }
+        .btn { flex: 1; padding: 10px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 11px; transition: 0.2s; }
+        .btn:active { transform: scale(0.95); }
+        .btn-ai { background: var(--mint); color: var(--dark); }
+        .btn-link { background: #f0f0f0; color: #555; }
+        .ai-output { display: none; background: #e6ffe6; padding: 12px; border-radius: 12px; margin-top: 10px; border-left: 4px solid var(--mint); font-size: 12px; color: #333; white-space: pre-wrap; }
+        .ad-label { font-size: 9px; color: #ccc; text-align: center; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center; color: var(--dark); margin: 10px 0;">🌿 Mint Intelligence</h2>
+    
+    <div class="nav-cats">
+        <a href="/?category=top" class="cat-btn {% if current_cat == 'top' %}active{% endif %}">🔥 Top News</a>
+        <a href="/?category=business" class="cat-btn {% if current_cat == 'business' %}active{% endif %}">💰 Business</a>
+        <a href="/?category=technology" class="cat-btn {% if current_cat == 'technology' %}active{% endif %}">💻 Tech</a>
+        <a href="/?category=sports" class="cat-btn {% if current_cat == 'sports' %}active{% endif %}">⚽ Sports</a>
+        <a href="/?category=entertainment" class="cat-btn {% if current_cat == 'entertainment' %}active{% endif %}">🎬 Movie</a>
+    </div>
+
+    {% for a in articles %}
+    <div class="card">
+        <img src="{{ a.urlToImage }}">
+        <h3>{{ a.title }}</h3>
+        <div class="btn-box">
+            <button class="btn btn-ai" onclick="analyze('{{ loop.index }}', '{{ a.full_desc|replace("'", "") }}')">⚡ Quick Summary</button>
+            <a href="{{ a.url }}" target="_blank" style="flex:1;"><button class="btn btn-link">🔗 Full Story</button></a>
+        </div>
+        <div id="res-{{ loop.index }}" class="ai-output"></div>
+    </div>
+
+    {% if loop.index % 2 == 0 %}
+    <div style="text-align:center; padding: 10px;">
+        <div class="ad-label">ADVERTISEMENT</div>
+        <script>(function(s){s.dataset.zone='10910514',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    </div>
+    {% endif %}
+
+    {% endfor %}
+
+    <script>
+        async function analyze(id, summary) {
+            const resBox = document.getElementById('res-'+id);
+            resBox.style.display = "block";
+            resBox.innerText = "Processing summary...";
+
+            const res = await fetch('/analyze', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({summary: summary})
+            });
+            const data = await res.json();
+            resBox.innerText = data.result;
+        }
+    </script>
+</body>
+</html>
+
