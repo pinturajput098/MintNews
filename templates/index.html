@@ -3,211 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mint Intelligence | Jarvis Edition</title>
+    <title>Mint Intelligence | Jarvis 3.0</title>
     
     <script>(function(s){s.dataset.zone='10910578',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        :root { --j-blue: #00d2ff; --j-green: #00ff88; --j-red: #ff3e3e; --bg: #050a0f; }
 
-        :root {
-            --jarvis-blue: #00d2ff;
-            --jarvis-glow: rgba(0, 210, 255, 0.6);
-            --bg-dark: #050a0f;
-            --card-glass: rgba(0, 210, 255, 0.05);
-        }
+        body, html { margin: 0; padding: 0; background: var(--bg); color: #fff; font-family: 'Orbitron', sans-serif; overflow-x: hidden; }
 
-        body {
-            background-color: var(--bg-dark);
-            color: #fff;
-            font-family: 'Orbitron', sans-serif;
-            margin: 0;
-            padding-bottom: 40px;
-            background-image: radial-gradient(circle at center, #0a1a2a 0%, #050a0f 100%);
-        }
-
-        /* Jarvis Scanner Effect */
-        body::before {
-            content: " ";
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(0, 210, 255, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 210, 255, 0.03));
-            background-size: 100% 4px, 3px 100%;
-            pointer-events: none;
-            z-index: 1000;
-        }
+        /* 🌌 CYBER MATRIX BACKGROUND */
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
 
         header {
-            padding: 25px 15px;
-            text-align: center;
-            border-bottom: 2px solid var(--jarvis-blue);
-            background: rgba(0,0,0,0.9);
-            box-shadow: 0 0 25px var(--jarvis-glow);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            padding: 20px; text-align: center; background: rgba(0,0,0,0.85);
+            border-bottom: 2px solid var(--j-blue); box-shadow: 0 0 20px var(--j-blue);
+            position: sticky; top: 0; z-index: 100; backdrop-filter: blur(5px);
         }
 
-        header h1 {
-            font-size: 22px;
-            letter-spacing: 5px;
-            color: var(--jarvis-blue);
-            text-shadow: 0 0 15px var(--jarvis-blue);
-            margin: 0;
+        /* 🤖 PERSONALITY SELECTOR */
+        .ai-selector { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        .ai-btn { 
+            font-size: 9px; padding: 5px 10px; border: 1px solid var(--j-blue); 
+            background: transparent; color: var(--j-blue); cursor: pointer; border-radius: 3px;
         }
+        .ai-btn.active { background: var(--j-blue); color: #000; box-shadow: 0 0 10px var(--j-blue); }
 
-        .status-bar {
-            font-size: 9px;
-            color: var(--jarvis-blue);
-            margin-top: 5px;
-            text-transform: uppercase;
+        .container { padding: 15px; max-width: 700px; margin: auto; position: relative; z-index: 1; }
+
+        /* 🎭 MOOD TAGS */
+        .mood-tag {
+            display: inline-block; padding: 4px 10px; font-size: 9px; border-radius: 4px;
+            margin-bottom: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
         }
-
-        /* Categories */
-        .nav-scroll {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding: 15px;
-            scrollbar-width: none;
-        }
-
-        .cat-btn {
-            background: transparent;
-            border: 1px solid var(--jarvis-blue);
-            color: var(--jarvis-blue);
-            padding: 8px 15px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 11px;
-            white-space: nowrap;
-            transition: 0.3s;
-        }
-
-        .cat-btn.active {
-            background: var(--jarvis-blue);
-            color: #000;
-            box-shadow: 0 0 15px var(--jarvis-blue);
-        }
-
-        .container { padding: 15px; max-width: 700px; margin: auto; }
+        .mood-critical { background: rgba(255, 62, 62, 0.2); color: var(--j-red); border: 1px solid var(--j-red); box-shadow: 0 0 10px var(--j-red); }
+        .mood-positive { background: rgba(0, 255, 136, 0.2); color: var(--j-green); border: 1px solid var(--j-green); box-shadow: 0 0 10px var(--j-green); }
+        .mood-tech { background: rgba(0, 210, 255, 0.2); color: var(--j-blue); border: 1px solid var(--j-blue); box-shadow: 0 0 10px var(--j-blue); }
 
         .news-card {
-            background: var(--card-glass);
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            border-radius: 0 25px 0 25px;
-            margin-bottom: 25px;
-            padding: 0;
-            overflow: hidden;
-            transition: 0.4s;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 210, 255, 0.15);
+            border-radius: 15px; margin-bottom: 25px; padding: 15px; transition: 0.3s;
         }
+        .news-card:hover { border-color: var(--j-blue); transform: translateY(-3px); }
 
-        .news-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--jarvis-blue);
-        }
-
-        .news-content { padding: 15px; }
-
-        .news-title {
-            font-size: 16px;
-            color: #fff;
-            line-height: 1.4;
-            margin-bottom: 15px;
-        }
+        .news-img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; margin-bottom: 15px; }
+        .news-title { font-size: 15px; margin-bottom: 15px; line-height: 1.4; }
 
         .jarvis-btn {
-            background: rgba(0, 210, 255, 0.1);
-            border: 1px solid var(--jarvis-blue);
-            color: var(--jarvis-blue);
-            padding: 12px;
-            width: 100%;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 10px;
-            letter-spacing: 2px;
-            transition: 0.3s;
+            background: transparent; border: 1px solid var(--j-blue); color: var(--j-blue);
+            padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; font-family: 'Orbitron';
+            font-size: 10px; transition: 0.3s;
         }
+        .jarvis-btn:hover { background: var(--j-blue); color: #000; }
 
-        .jarvis-btn:hover { background: var(--jarvis-blue); color: #000; }
-
-        .ai-output {
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(0, 210, 255, 0.08);
-            border-left: 3px solid var(--jarvis-blue);
-            font-size: 12px;
-            color: #a0c4ff;
-            line-height: 1.6;
-        }
-
-        /* Loading Dots */
-        .dot { display: inline-block; width: 4px; height: 4px; background: var(--jarvis-blue); border-radius: 50%; margin-left: 3px; animation: pulse 0.8s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-
+        .ai-box { display: none; margin-top: 15px; padding: 12px; border-left: 2px solid var(--j-blue); background: rgba(0, 210, 255, 0.05); font-size: 12px; color: #a0c4ff; line-height: 1.6; }
     </style>
 </head>
 <body>
 
+    <canvas id="matrix-canvas"></canvas>
+
     <header>
         <h1>MINT INTELLIGENCE</h1>
-        <div class="status-bar">Core Status: Optimal | AI: Ready</div>
+        <div class="ai-selector">
+            <button class="ai-btn active" onclick="setAI('Jarvis', 0.8, 0.9)">JARVIS</button>
+            <button class="ai-btn" onclick="setAI('Friday', 1.2, 1.1)">FRIDAY</button>
+        </div>
     </header>
-
-    <div class="nav-scroll">
-        <a href="/?category=top" class="cat-btn {% if current_cat == 'top' %}active{% endif %}">NETWORK</a>
-        <a href="/?category=technology" class="cat-btn {% if current_cat == 'technology' %}active{% endif %}">SYSTEMS</a>
-        <a href="/?category=business" class="cat-btn {% if current_cat == 'business' %}active{% endif %}">MARKETS</a>
-        <a href="/?category=sports" class="cat-btn {% if current_cat == 'sports' %}active{% endif %}">COMBAT</a>
-    </div>
 
     <div class="container">
         {% for a in articles %}
         <div class="news-card">
+            {% if 'war' in a.title.lower() or 'death' in a.title.lower() or 'loss' in a.title.lower() %}
+                <span class="mood-tag mood-critical">🔴 CRITICAL</span>
+            {% elif 'ai' in a.title.lower() or 'tech' in a.title.lower() or 'launch' in a.title.lower() %}
+                <span class="mood-tag mood-tech">🔵 TECH UPGRADE</span>
+            {% else %}
+                <span class="mood-tag mood-positive">🟢 POSITIVE VIBE</span>
+            {% endif %}
+
             <img src="{{ a.urlToImage }}" class="news-img" loading="lazy">
-            <div class="news-content">
-                <h3 class="news-title">{{ a.title }}</h3>
-                
-                <button class="jarvis-btn" onclick="startAnalysis('{{ loop.index }}', '{{ a.full_desc|replace("'", "")|replace("\n", " ") }}')">
-                    RUN AI ANALYSIS
-                </button>
-
-                <div id="ai-{{ loop.index }}" class="ai-output"></div>
-            </div>
+            <h3 class="news-title">{{ a.title }}</h3>
+            
+            <button class="jarvis-btn" onclick="analyze('{{ loop.index }}', '{{ a.full_desc|replace("'", "")|replace("\n", " ") }}')">INITIALIZE DATA UPLINK</button>
+            <div id="ai-{{ loop.index }}" class="ai-box"></div>
         </div>
-
-        {% if loop.index % 2 == 0 %}
-        <div style="text-align:center; margin-bottom: 25px;">
-            <script>(function(s){s.dataset.zone='10910514',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-        </div>
-        {% endif %}
         {% endfor %}
     </div>
 
     <script>
-        function startAnalysis(id, text) {
-            const output = document.getElementById('ai-'+id);
-            output.style.display = "block";
-            output.innerHTML = "ACCESSING DATA STREAMS<span class='dot'></span><span class='dot'></span><span class='dot'></span>";
+        // 🌌 MATRIX EFFECT
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const fontSize = 10;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(5, 10, 15, 0.1)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00d2ff";
+            ctx.font = fontSize + "px Orbitron";
+            drops.forEach((y, i) => {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, y * fontSize);
+                if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        setInterval(drawMatrix, 50);
+
+        // 🤖 AI SETTINGS
+        let currentVoice = { pitch: 0.8, rate: 0.9, name: 'Jarvis' };
+        function setAI(name, pitch, rate) {
+            currentVoice = { pitch, rate, name };
+            document.querySelectorAll('.ai-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            const msg = new SpeechSynthesisUtterance(name + " online. Awaiting orders.");
+            msg.pitch = pitch; msg.rate = rate;
+            window.speechSynthesis.speak(msg);
+        }
+
+        function analyze(id, text) {
+            const box = document.getElementById('ai-'+id);
+            box.style.display = "block";
+            box.innerHTML = "ACCESSING SECURE SERVER...";
 
             fetch('/analyze', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({summary: text})
-            })
-            .then(res => res.json())
-            .then(data => {
-                output.innerHTML = "<strong>SYSTEM INSIGHT:</strong><br>" + data.result;
-                
-                // Jarvis Voice
+            }).then(res => res.json()).then(data => {
+                box.innerHTML = `<strong>${currentVoice.name.toUpperCase()} INSIGHT:</strong><br>${data.result}`;
                 const speech = new SpeechSynthesisUtterance(data.result);
-                speech.rate = 1.0;
-                speech.pitch = 0.8; 
+                speech.pitch = currentVoice.pitch;
+                speech.rate = currentVoice.rate;
                 window.speechSynthesis.speak(speech);
             });
         }
