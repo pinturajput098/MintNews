@@ -8,53 +8,68 @@
     <script>(function(s){s.dataset.zone='10910578',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
         :root {
             --jarvis-blue: #00d2ff;
-            --jarvis-glow: rgba(0, 210, 255, 0.5);
+            --jarvis-glow: rgba(0, 210, 255, 0.6);
             --bg-dark: #050a0f;
-            --card-glass: rgba(255, 255, 255, 0.03);
+            --card-glass: rgba(0, 210, 255, 0.05);
         }
 
         body {
             background-color: var(--bg-dark);
             color: #fff;
-            font-family: 'Orbitron', sans-serif; /* Futuristic font */
+            font-family: 'Orbitron', sans-serif;
             margin: 0;
-            overflow-x: hidden;
+            padding-bottom: 40px;
+            background-image: radial-gradient(circle at center, #0a1a2a 0%, #050a0f 100%);
         }
 
-        /* Scanline Effect (Jarvis Style) */
+        /* Jarvis Scanner Effect */
         body::before {
             content: " ";
             position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(0, 210, 255, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 210, 255, 0.03));
             background-size: 100% 4px, 3px 100%;
             pointer-events: none;
             z-index: 1000;
         }
 
         header {
-            padding: 30px 15px;
+            padding: 25px 15px;
             text-align: center;
             border-bottom: 2px solid var(--jarvis-blue);
-            box-shadow: 0 0 20px var(--jarvis-glow);
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
+            box-shadow: 0 0 25px var(--jarvis-glow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         header h1 {
-            font-size: 26px;
-            letter-spacing: 4px;
+            font-size: 22px;
+            letter-spacing: 5px;
             color: var(--jarvis-blue);
-            text-shadow: 0 0 10px var(--jarvis-blue);
+            text-shadow: 0 0 15px var(--jarvis-blue);
+            margin: 0;
         }
 
+        .status-bar {
+            font-size: 9px;
+            color: var(--jarvis-blue);
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        /* Categories */
         .nav-scroll {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             overflow-x: auto;
-            padding: 20px;
+            padding: 15px;
             scrollbar-width: none;
         }
 
@@ -62,10 +77,11 @@
             background: transparent;
             border: 1px solid var(--jarvis-blue);
             color: var(--jarvis-blue);
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 8px 15px;
+            border-radius: 4px;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 11px;
+            white-space: nowrap;
             transition: 0.3s;
         }
 
@@ -75,35 +91,32 @@
             box-shadow: 0 0 15px var(--jarvis-blue);
         }
 
-        .container { padding: 20px; }
+        .container { padding: 15px; max-width: 700px; margin: auto; }
 
         .news-card {
             background: var(--card-glass);
             border: 1px solid rgba(0, 210, 255, 0.2);
-            border-radius: 0 20px 0 20px; /* Angular Jarvis cut */
-            margin-bottom: 30px;
-            padding: 15px;
-            position: relative;
+            border-radius: 0 25px 0 25px;
+            margin-bottom: 25px;
+            padding: 0;
+            overflow: hidden;
             transition: 0.4s;
-        }
-
-        .news-card:hover {
-            border-color: var(--jarvis-blue);
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
         }
 
         .news-img {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-radius: 0 15px 0 15px;
-            filter: grayscale(30%) brightness(80%);
+            border-bottom: 1px solid var(--jarvis-blue);
         }
 
+        .news-content { padding: 15px; }
+
         .news-title {
-            margin: 15px 0;
-            font-size: 18px;
-            color: var(--jarvis-blue);
+            font-size: 16px;
+            color: #fff;
+            line-height: 1.4;
+            margin-bottom: 15px;
         }
 
         .jarvis-btn {
@@ -112,15 +125,12 @@
             color: var(--jarvis-blue);
             padding: 12px;
             width: 100%;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-transform: uppercase;
-            font-size: 11px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+            transition: 0.3s;
         }
 
         .jarvis-btn:hover { background: var(--jarvis-blue); color: #000; }
@@ -129,19 +139,16 @@
             display: none;
             margin-top: 15px;
             padding: 15px;
-            background: rgba(0, 210, 255, 0.05);
-            border-left: 2px solid var(--jarvis-blue);
-            font-size: 13px;
+            background: rgba(0, 210, 255, 0.08);
+            border-left: 3px solid var(--jarvis-blue);
+            font-size: 12px;
             color: #a0c4ff;
             line-height: 1.6;
         }
 
-        /* Voice wave effect */
-        .wave {
-            height: 3px; width: 10px; background: var(--jarvis-blue); display: inline-block; margin-left: 2px;
-            animation: bounce 0.5s infinite;
-        }
-        @keyframes bounce { 0%, 100% { height: 3px; } 50% { height: 10px; } }
+        /* Loading Dots */
+        .dot { display: inline-block; width: 4px; height: 4px; background: var(--jarvis-blue); border-radius: 50%; margin-left: 3px; animation: pulse 0.8s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
     </style>
 </head>
@@ -149,32 +156,33 @@
 
     <header>
         <h1>MINT INTELLIGENCE</h1>
-        <p style="font-size: 10px; color: #555;">SYSTEM STATUS: ONLINE</p>
+        <div class="status-bar">Core Status: Optimal | AI: Ready</div>
     </header>
 
     <div class="nav-scroll">
-        <a href="/?category=top" class="cat-btn {% if current_cat == 'top' %}active{% endif %}">GLOBAL</a>
+        <a href="/?category=top" class="cat-btn {% if current_cat == 'top' %}active{% endif %}">NETWORK</a>
         <a href="/?category=technology" class="cat-btn {% if current_cat == 'technology' %}active{% endif %}">SYSTEMS</a>
-        <a href="/?category=business" class="cat-btn {% if current_cat == 'business' %}active{% endif %}">CREDITS</a>
+        <a href="/?category=business" class="cat-btn {% if current_cat == 'business' %}active{% endif %}">MARKETS</a>
         <a href="/?category=sports" class="cat-btn {% if current_cat == 'sports' %}active{% endif %}">COMBAT</a>
     </div>
 
     <div class="container">
         {% for a in articles %}
         <div class="news-card">
-            <img src="{{ a.urlToImage }}" class="news-img">
-            <h3 class="news-title">{{ a.title }}</h3>
-            
-            <button class="jarvis-btn" onclick="initiateAI('{{ loop.index }}', '{{ a.full_desc|replace("'", "") }}')">
-                INITIALIZE AI ANALYSIS
-            </button>
+            <img src="{{ a.urlToImage }}" class="news-img" loading="lazy">
+            <div class="news-content">
+                <h3 class="news-title">{{ a.title }}</h3>
+                
+                <button class="jarvis-btn" onclick="startAnalysis('{{ loop.index }}', '{{ a.full_desc|replace("'", "")|replace("\n", " ") }}')">
+                    RUN AI ANALYSIS
+                </button>
 
-            <div id="ai-{{ loop.index }}" class="ai-output"></div>
+                <div id="ai-{{ loop.index }}" class="ai-output"></div>
+            </div>
         </div>
 
         {% if loop.index % 2 == 0 %}
-        <div style="text-align:center; margin: 20px 0;">
-            <p style="font-size: 8px; color: #333;">SECURE AD CHANNEL</p>
+        <div style="text-align:center; margin-bottom: 25px;">
             <script>(function(s){s.dataset.zone='10910514',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
         </div>
         {% endif %}
@@ -182,22 +190,24 @@
     </div>
 
     <script>
-        function initiateAI(id, text) {
+        function startAnalysis(id, text) {
             const output = document.getElementById('ai-'+id);
             output.style.display = "block";
-            output.innerHTML = "ANALYZING DATA STREAM... <div class='wave'></div><div class='wave' style='animation-delay: 0.1s'></div><div class='wave' style='animation-delay: 0.2s'></div>";
+            output.innerHTML = "ACCESSING DATA STREAMS<span class='dot'></span><span class='dot'></span><span class='dot'></span>";
 
             fetch('/analyze', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({summary: text})
-            }).then(res => res.json())
+            })
+            .then(res => res.json())
             .then(data => {
                 output.innerHTML = "<strong>SYSTEM INSIGHT:</strong><br>" + data.result;
-                // Voice Synthesis
+                
+                // Jarvis Voice
                 const speech = new SpeechSynthesisUtterance(data.result);
-                speech.rate = 1.1;
-                speech.pitch = 0.9; // Deep voice like Jarvis
+                speech.rate = 1.0;
+                speech.pitch = 0.8; 
                 window.speechSynthesis.speak(speech);
             });
         }
