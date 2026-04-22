@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mint Intelligence | AI OS v4.0</title>
+    <title>Mint Intelligence | AI OS v4.5</title>
     
     <script>(function(s){s.dataset.zone='10910578',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
@@ -15,200 +15,153 @@
             --j-green: #00ff88;
             --j-red: #ff3e3e;
             --bg-black: #050a0f;
-            --glass: rgba(255, 255, 255, 0.03);
-            --neon-glow: 0 0 15px var(--j-blue);
+            --glass: rgba(0, 210, 255, 0.05);
         }
 
-        * { box-sizing: border-box; }
         body, html { 
             margin: 0; padding: 0; background: var(--bg-black); color: #fff; 
             font-family: 'Orbitron', sans-serif; overflow-x: hidden;
         }
 
         /* 🌌 MATRIX & SCANLINES */
-        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.12; }
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(0, 210, 255, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 210, 255, 0.02));
-            background-size: 100% 4px, 3px 100%; pointer-events: none; z-index: 1000;
-        }
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
 
-        /* 🍔 NAVIGATION & SIDEBAR */
         header {
             padding: 15px; text-align: center; background: rgba(0,0,0,0.9);
-            border-bottom: 2px solid var(--j-blue); box-shadow: var(--neon-glow);
-            position: sticky; top: 0; z-index: 1001; backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--j-blue); position: sticky; top: 0; z-index: 1001;
         }
 
-        .menu-icon {
-            position: absolute; left: 20px; top: 22px; cursor: pointer;
-        }
-        .menu-icon div { width: 25px; height: 2px; background: var(--j-blue); margin: 5px 0; transition: 0.3s; }
+        .menu-icon { position: absolute; left: 20px; top: 25px; cursor: pointer; z-index: 2001; }
+        .menu-icon div { width: 25px; height: 2px; background: var(--j-blue); margin: 5px 0; }
 
+        /* 🔍 SEARCH BAR */
+        .search-container {
+            padding: 10px 20px; background: rgba(0,0,0,0.8); display: flex; justify-content: center;
+        }
+        .search-box {
+            width: 100%; max-width: 500px; position: relative;
+        }
+        .search-box input {
+            width: 100%; padding: 10px 40px 10px 15px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--j-blue); border-radius: 20px; color: #fff;
+            font-family: 'Share Tech Mono'; outline: none;
+        }
+
+        /* 💹 LIVE TICKER (TradingView) */
+        .ticker-wrap {
+            width: 100%; height: 40px; background: #000; border-bottom: 1px solid var(--j-blue);
+            overflow: hidden;
+        }
+
+        /* 📂 SIDEBAR */
         .sidebar {
             position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
             background: rgba(5, 10, 15, 0.98); border-right: 1px solid var(--j-blue);
-            transition: 0.5s cubic-bezier(0.77,0,0.175,1); z-index: 2000; padding-top: 80px;
+            transition: 0.4s; z-index: 2000; padding-top: 80px;
         }
-        .sidebar.active { left: 0; box-shadow: 20px 0 50px rgba(0,0,0,0.8); }
-
+        .sidebar.active { left: 0; }
         .side-item {
-            display: block; padding: 18px 30px; color: #aaa; text-decoration: none;
-            font-size: 12px; letter-spacing: 2px; border-bottom: 1px solid rgba(0,210,255,0.1);
-            transition: 0.3s;
+            display: block; padding: 15px 25px; color: #aaa; text-decoration: none;
+            font-size: 12px; border-bottom: 1px solid rgba(0,210,255,0.1);
         }
-        .side-item:hover { color: var(--j-blue); background: rgba(0,210,255,0.05); border-left: 5px solid var(--j-blue); }
+        .side-item:hover { color: var(--j-blue); background: rgba(0,210,255,0.05); }
 
-        /* 🤖 AI SELECTOR */
-        .personality { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+        /* 🤖 PERSONALITY */
+        .ai-selector { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
         .ai-btn { 
-            font-size: 8px; padding: 4px 10px; border: 1px solid var(--j-blue); 
-            background: transparent; color: var(--j-blue); cursor: pointer; border-radius: 2px;
+            font-size: 9px; padding: 5px 12px; border: 1px solid var(--j-blue); 
+            background: transparent; color: var(--j-blue); cursor: pointer;
         }
         .ai-btn.active { background: var(--j-blue); color: #000; box-shadow: 0 0 10px var(--j-blue); }
 
-        /* 💹 TICKER PATTI */
-        .ticker-wrap { background: rgba(0, 210, 255, 0.05); border-bottom: 1px solid rgba(0,210,255,0.2); overflow: hidden; padding: 6px 0; }
-        .ticker { 
-            display: inline-block; white-space: nowrap; font-family: 'Share Tech Mono';
-            font-size: 11px; color: var(--j-blue); animation: marquee 25s linear infinite; 
-        }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        /* 📊 MAIN CONTAINER */
-        .container { padding: 20px; max-width: 850px; margin: auto; z-index: 5; position: relative; }
+        .container { padding: 20px; max-width: 800px; margin: auto; }
 
         .news-card {
-            background: var(--glass); border: 1px solid rgba(0, 210, 255, 0.15);
-            border-radius: 0 30px 0 30px; margin-bottom: 35px; overflow: hidden;
-            transition: 0.4s ease; backdrop-filter: blur(2px);
+            background: var(--glass); border: 1px solid rgba(0, 210, 255, 0.1);
+            border-radius: 10px; margin-bottom: 30px; overflow: hidden;
+            transition: 0.3s; backdrop-filter: blur(5px);
         }
-        .news-card:hover { border-color: var(--j-blue); box-shadow: 0 0 20px rgba(0, 210, 255, 0.1); transform: translateY(-5px); }
+        .news-img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 15px; }
 
-        .news-img { width: 100%; height: 240px; object-fit: cover; border-bottom: 1px solid var(--j-blue); filter: brightness(0.8); }
+        .mood-tag { font-size: 9px; padding: 2px 8px; border-radius: 3px; margin-bottom: 10px; display: inline-block; }
 
-        .card-body { padding: 20px; }
-        
-        .mood-tag {
-            font-size: 10px; padding: 3px 12px; border-radius: 4px; font-weight: bold;
-            text-transform: uppercase; margin-bottom: 15px; display: inline-block;
-            letter-spacing: 1px;
-        }
-
-        .title { font-size: 18px; margin-bottom: 15px; color: #fff; line-height: 1.4; }
-
-        .btn-group { display: flex; gap: 12px; }
-        .btn {
-            flex: 1; padding: 12px; border: 1px solid var(--j-blue); border-radius: 5px;
-            background: transparent; color: var(--j-blue); font-family: 'Orbitron';
-            font-size: 11px; cursor: pointer; transition: 0.3s;
-        }
-        .btn:hover { background: var(--j-blue); color: #000; box-shadow: 0 0 15px var(--j-blue); }
-
-        /* ⌨️ TYPEWRITER OUTPUT */
         .ai-terminal {
-            display: none; margin-top: 20px; padding: 15px;
-            background: rgba(0,0,0,0.5); border-left: 3px solid var(--j-blue);
+            display: none; margin-top: 15px; padding: 12px;
+            background: rgba(0,0,0,0.6); border-left: 2px solid var(--j-blue);
             font-family: 'Share Tech Mono'; font-size: 13px; color: var(--j-green);
-            line-height: 1.6; min-height: 50px;
         }
-
-        /* 📅 ECONOMIC CALENDAR TABLE */
-        .calendar-sec { display: none; background: rgba(255,255,255,0.02); border-radius: 10px; padding: 20px; margin-top: 20px; border: 1px solid var(--j-blue); }
-        .calendar-sec h2 { color: var(--j-blue); font-size: 16px; margin-bottom: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(0,210,255,0.1); }
-        th { color: var(--j-blue); }
     </style>
 </head>
 <body>
 
-    <div class="scanlines"></div>
     <canvas id="matrix-canvas"></canvas>
 
     <div class="sidebar" id="sidebar">
-        <a href="/" class="side-item">🌐 GLOBAL DASHBOARD</a>
+        <a href="/" class="side-item">🌐 ALL NEWS</a>
         <a href="/?category=business" class="side-item">💹 FOREX TERMINAL</a>
         <a href="/?category=technology" class="side-item">🪙 CRYPTO PULSE</a>
         <a href="/?category=science" class="side-item">📊 STOCKS / F&O</a>
-        <a href="#" class="side-item" onclick="toggleCalendar()">📅 ECONOMIC CALENDAR</a>
-        <a href="#" class="side-item" style="color: var(--j-red);">⚠️ SYSTEM REBOOT</a>
+        <a href="#" class="side-item" onclick="alert('Coming Soon: Econ Calendar')">📅 CALENDAR</a>
     </div>
 
     <header>
         <div class="menu-icon" onclick="toggleSidebar()">
             <div></div><div></div><div></div>
         </div>
-        <h1 onclick="window.location.reload()">MINT INTELLIGENCE</h1>
-        <div class="personality">
-            <button class="ai-btn active" id="btn-jarvis" onclick="setPersona('Jarvis', 0.8, 0.9)">JARVIS</button>
-            <button class="ai-btn" id="btn-friday" onclick="setPersona('Friday', 1.2, 1.1)">FRIDAY</button>
+        <h1>MINT INTELLIGENCE</h1>
+        <div class="ai-selector">
+            <button class="ai-btn active" id="btn-jarvis" onclick="setAI('Jarvis', 0.8, 0.9)">JARVIS</button>
+            <button class="ai-btn" id="btn-friday" onclick="setAI('Friday', 1.2, 1.1)">FRIDAY</button>
         </div>
     </header>
 
     <div class="ticker-wrap">
-        <div class="ticker" id="live-ticker">
-            LOADING LIVE FEED... EURUSD: 1.0824 [OPEN] | BTC: $64,120.40 ▼ 1.2% | GOLD: $2312.50 ▲ | NEXT NFP: 15:30 GMT | FOMC MEETING IN 2 DAYS | TRADING SYSTEMS OPTIMAL
+        <iframe src="https://itcs.realtimetickertape.com/ticker?symbols=FX:EURUSD,FX:GBPUSD,BITSTAMP:BTCUSD,FX:XAUUSD,INDEX:NIFTY&colorTheme=dark" 
+        width="100%" height="40" frameborder="0" scrolling="no" style="border:none;"></iframe>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <form action="/" method="GET">
+                <input type="text" name="category" placeholder="SEARCH SYSTEM DATA (e.g. NIFTY, GOLD)...">
+            </form>
         </div>
     </div>
 
     <div class="container">
-        
-        <div id="calendar-sec" class="calendar-sec">
-            <h2>ECONOMIC CALENDAR - HIGH IMPACT</h2>
-            <table>
-                <tr><th>TIME (GMT)</th><th>CURRENCY</th><th>EVENT</th><th>IMPACT</th></tr>
-                <tr><td>13:00</td><td>USD</td><td>CPI y/y</td><td style="color:var(--j-red)">HIGH</td></tr>
-                <tr><td>15:30</td><td>GBP</td><td>GDP Report</td><td style="color:var(--j-blue)">MED</td></tr>
-                <tr><td>18:00</td><td>USD</td><td>FOMC Minutes</td><td style="color:var(--j-red)">HIGH</td></tr>
-            </table>
-        </div>
-
         {% for a in articles %}
         <div class="news-card">
-            {% set title_lower = a.title|lower %}
-            {% if 'war' in title_lower or 'death' in title_lower or 'crash' in title_lower or 'down' in title_lower %}
-                <span class="mood-tag" style="border:1px solid var(--j-red); color:var(--j-red); background:rgba(255,62,62,0.1)">🔴 CRITICAL RISK</span>
-            {% elif 'ai' in title_lower or 'launch' in title_lower or 'tech' in title_lower %}
-                <span class="mood-tag" style="border:1px solid var(--j-blue); color:var(--j-blue); background:rgba(0,210,255,0.1)">🔵 TECH UPGRADE</span>
-            {% else %}
-                <span class="mood-tag" style="border:1px solid var(--j-green); color:var(--j-green); background:rgba(0,255,136,0.1)">🟢 OPTIMAL VIBE</span>
-            {% endif %}
-
-            <img src="{{ a.urlToImage }}" class="news-img" loading="lazy">
-            <div class="card-body">
-                <h3 class="title">{{ a.title }}</h3>
-                <div class="btn-group">
-                    <button class="btn" onclick="startAI('{{ loop.index }}', '{{ a.full_desc|replace("'", "")|replace("\n", " ") }}')">⚡ INITIALIZE AI</button>
-                    <a href="{{ a.url }}" target="_blank" style="flex:1;"><button class="btn">🔗 FULL UPLINK</button></a>
+            <img src="{{ a.urlToImage }}" class="news-img" onerror="this.src='https://images.unsplash.com/photo-1611974714024-462002ca0c71?w=500'">
+            <div class="card-content">
+                <span class="mood-tag" style="border: 1px solid var(--j-green); color: var(--j-green);">🟢 OPTIMAL FEED</span>
+                <h3 style="font-size: 16px;">{{ a.title }}</h3>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="ai-btn" style="flex:1" onclick="runAI('{{ loop.index }}', '{{ a.description|replace("'", "") }}')">⚡ ANALYZE</button>
+                    <a href="{{ a.url }}" target="_blank" style="flex:1; text-decoration:none;">
+                        <button class="ai-btn" style="width:100%">📖 FULL UPLINK</button>
+                    </a>
                 </div>
                 <div id="ai-{{ loop.index }}" class="ai-terminal"></div>
             </div>
         </div>
-
-        {% if loop.index % 2 == 0 %}
-        <div style="text-align:center; margin-bottom:20px;">
-            <script>(function(s){s.dataset.zone='10910514',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-        </div>
-        {% endif %}
         {% endfor %}
     </div>
 
     <script>
-        // --- 🌌 MATRIX ANIMATION ---
+        // Matrix Effect
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$¥€";
-        const fontSize = 11;
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const fontSize = 10;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
-        function drawMatrix() {
+        function draw() {
             ctx.fillStyle = "rgba(5, 10, 15, 0.1)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "#00d2ff";
-            ctx.font = fontSize + "px 'Share Tech Mono'";
             drops.forEach((y, i) => {
                 const text = letters[Math.floor(Math.random() * letters.length)];
                 ctx.fillText(text, i * fontSize, y * fontSize);
@@ -216,57 +169,40 @@
                 drops[i]++;
             });
         }
-        setInterval(drawMatrix, 50);
+        setInterval(draw, 50);
 
-        // --- 📂 NAVIGATION ---
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
-        function toggleCalendar() { 
-            const sec = document.getElementById('calendar-sec');
-            sec.style.display = (sec.style.display === 'block') ? 'none' : 'block';
-            toggleSidebar();
-        }
 
-        // --- 🤖 AI PERSONALITY & VOICE ---
-        let persona = { name: 'Jarvis', pitch: 0.8, rate: 0.9 };
-        function setPersona(name, p, r) {
-            persona = { name: name, pitch: p, rate: r };
+        let currentAI = { name: 'Jarvis', pitch: 0.8, rate: 0.9 };
+        function setAI(name, p, r) {
+            currentAI = { name, pitch: p, rate: r };
             document.querySelectorAll('.ai-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-' + name.toLowerCase()).classList.add('active');
-            const msg = new SpeechSynthesisUtterance(name + " OS online. Data streams synchronized.");
-            msg.pitch = p; msg.rate = r; window.speechSynthesis.speak(msg);
+            event.target.classList.add('active');
+            speechSynthesis.speak(new SpeechSynthesisUtterance(name + " online."));
         }
 
-        // --- ⌨️ TYPEWRITER & AI LOGIC ---
-        function typeWriter(text, elementId) {
-            let i = 0;
-            const element = document.getElementById(elementId);
-            element.innerHTML = ""; 
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, 30);
-                }
-            }
-            type();
-        }
-
-        function startAI(id, text) {
-            const output = document.getElementById('ai-'+id);
-            output.style.display = "block";
-            output.innerHTML = "> INITIATING HEURISTIC ANALYSIS...";
-
+        function runAI(id, text) {
+            const box = document.getElementById('ai-'+id);
+            box.style.display = "block";
+            box.innerHTML = "> ACCESSING ENCRYPTED DATA...";
+            
             fetch('/analyze', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({summary: text})
             }).then(res => res.json()).then(data => {
-                const resultText = `[${persona.name.toUpperCase()} LOG]: ` + data.result;
-                typeWriter(resultText, 'ai-'+id);
-                
-                const speech = new SpeechSynthesisUtterance(data.result);
-                speech.pitch = persona.pitch; speech.rate = persona.rate;
-                window.speechSynthesis.speak(speech);
+                let i = 0;
+                let fullText = `[${currentAI.name.toUpperCase()}]: ${data.result}`;
+                box.innerHTML = "";
+                function type() {
+                    if (i < fullText.length) {
+                        box.innerHTML += fullText.charAt(i); i++; setTimeout(type, 30);
+                    }
+                }
+                type();
+                const msg = new SpeechSynthesisUtterance(data.result);
+                msg.pitch = currentAI.pitch; msg.rate = currentAI.rate;
+                speechSynthesis.speak(msg);
             });
         }
     </script>
