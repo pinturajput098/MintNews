@@ -4,149 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mint Intelligence | AI Terminal</title>
-    
     <script>(function(s){s.dataset.zone='10910578',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
-        :root { --j-blue: #00d2ff; --j-green: #00ff88; --bg: #050a0f; }
-        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Orbitron', sans-serif; overflow-x: hidden; }
-        
-        /* 🌌 MATRIX BACKGROUND */
-        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
-        
-        header { padding: 15px; text-align: center; border-bottom: 2px solid var(--j-blue); background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 1000; }
-        
-        .menu-icon { position: absolute; left: 20px; top: 25px; cursor: pointer; }
-        .menu-icon div { width: 25px; height: 2px; background: var(--j-blue); margin: 5px 0; }
-        
-        .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: rgba(5,10,15,0.98); border-right: 1px solid var(--j-blue); transition: 0.4s; z-index: 2000; padding-top: 80px; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap');
+        :root { --blue: #00d2ff; --green: #00ff88; --dark: #050a0f; }
+        body { margin: 0; background: var(--dark); color: #fff; font-family: 'Orbitron', sans-serif; overflow-x: hidden; }
+        #matrix-canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.1; }
+        header { padding: 15px; text-align: center; border-bottom: 2px solid var(--blue); background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 1000; }
+        .sidebar { position: fixed; top: 0; left: -300px; width: 260px; height: 100%; background: #000; border-right: 1px solid var(--blue); transition: 0.4s; z-index: 2000; padding: 20px; }
         .sidebar.active { left: 0; }
-        .side-item { display: block; padding: 15px 25px; color: #aaa; text-decoration: none; font-size: 12px; border-bottom: 1px solid rgba(0,210,255,0.1); }
-        .side-item:hover { color: var(--j-blue); background: rgba(0,210,255,0.05); }
-
-        /* 🔍 SEARCH BAR */
-        .search-area { padding: 10px; background: rgba(0,0,0,0.5); text-align: center; border-bottom: 1px solid rgba(0,210,255,0.1); }
-        .search-input { width: 85%; max-width: 500px; padding: 10px; background: none; border: 1px solid var(--j-blue); color: white; font-family: 'Share Tech Mono'; border-radius: 5px; outline: none; }
-
-        /* 💹 LIVE TICKER */
-        .ticker-wrap { width: 100%; height: 46px; background: #000; border-bottom: 1px solid var(--j-blue); }
-
+        .side-item { display: block; padding: 12px; color: #aaa; text-decoration: none; border-bottom: 1px solid #222; font-size: 13px; }
         .container { padding: 20px; max-width: 800px; margin: auto; }
-        
-        .news-card { background: rgba(0,210,255,0.05); border: 1px solid rgba(0,210,255,0.1); border-radius: 10px; margin-bottom: 30px; overflow: hidden; backdrop-filter: blur(5px); }
-        .news-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-bottom: 1px solid rgba(0,210,255,0.1); }
-        
+        .news-card { background: rgba(255,255,255,0.03); border: 1px solid #222; border-radius: 12px; margin-bottom: 30px; overflow: hidden; backdrop-filter: blur(10px); }
+        .news-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
         .card-body { padding: 15px; }
-        .news-date { font-size: 10px; color: var(--j-blue); margin-bottom: 8px; font-family: 'Share Tech Mono'; }
-        
-        .ai-btn { width: 100%; padding: 12px; border: 1px solid var(--j-blue); background: transparent; color: var(--j-blue); font-family: 'Orbitron'; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        .ai-btn:hover { background: var(--j-blue); color: #000; }
-        .source-btn { border-color: #555; color: #aaa; font-size: 10px; }
-
-        .ai-terminal { display: none; padding: 12px; background: rgba(0,0,0,0.7); color: var(--j-green); margin-top: 10px; font-family: 'Share Tech Mono'; font-size: 13px; border-left: 2px solid var(--j-blue); line-height: 1.5; }
+        .btn-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+        .btn { flex: 1; min-width: 120px; padding: 10px; border-radius: 4px; font-size: 9px; cursor: pointer; text-align: center; text-decoration: none; font-weight: bold; border: 1px solid transparent; }
+        .btn-ai { border-color: var(--blue); color: var(--blue); background: transparent; }
+        .btn-binance { background: #F3BA2F; color: #000; }
+        .btn-bybit { background: var(--green); color: #000; }
+        .btn-kucoin { background: #24ae8f; color: #fff; }
+        .btn-social { background: #333; color: #fff; }
+        .ai-terminal { display: none; padding: 12px; background: #000; color: var(--green); font-family: 'Share Tech Mono'; font-size: 12px; border-left: 2px solid var(--blue); margin-top: 10px; }
     </style>
 </head>
 <body>
-
     <canvas id="matrix-canvas"></canvas>
-
     <div class="sidebar" id="sidebar">
-        <a href="/" class="side-item">🌐 GENERAL NEWS</a>
-        <a href="/?category=business" class="side-item">💹 FOREX TERMINAL</a>
+        <h3 style="color:var(--blue)">NAV_SYSTEM</h3>
+        <a href="/" class="side-item">🌐 INDIA NEWS</a>
+        <a href="/?category=business" class="side-item">💹 FOREX EXCHANGE</a>
         <a href="/?category=technology" class="side-item">🪙 CRYPTO PULSE</a>
-        <a href="/?category=science" class="side-item">📊 STOCKS / F&O</a>
+        <a href="/?category=science" class="side-item">📊 STOCK MARKET</a>
+        <div style="margin-top:30px;">
+            <p style="font-size:10px; color:#555;">CONNECT:</p>
+            <a href="https://www.instagram.com/pintu_rajput0777" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" width="20" style="margin-right:10px;"></a>
+            <a href="https://t.me/piut89" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="20"></a>
+        </div>
     </div>
 
     <header>
-        <div class="menu-icon" onclick="toggleSidebar()"><div></div><div></div><div></div></div>
-        <h1>MINT INTELLIGENCE</h1>
+        <div onclick="toggleSidebar()" style="position:absolute; left:20px; cursor:pointer;">☰</div>
+        <h1 style="font-size:16px;">MINT INTELLIGENCE v6.0</h1>
     </header>
 
-    <div class="ticker-wrap">
-        <iframe src="https://s.tradingview.com/embed-widget/ticker-tape/?locale=in#%7B%22symbols%22%3A%5B%7B%22proName%22%3A%22FX_IDC%3AEURUSD%22%2C%22title%22%3A%22EUR%2FUSD%22%7D%2C%7B%22proName%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22title%22%3A%22Bitcoin%22%7D%2C%7B%22proName%22%3A%22FX_IDC%3AUSDINR%22%2C%22title%22%3A%22USD%2FINR%22%7D%2C%7B%22proName%22%3A%22FOREXCOM%3AXAUUSD%22%2C%22title%22%3A%22Gold%22%7D%2C%7B%22proName%22%3A%22INDEX%3ANIFTY%22%2C%22title%22%3A%22Nifty%2050%22%7D%5D%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22displayMode%22%3A%22adaptive%22%7D" 
-        width="100%" height="46" frameborder="0" scrolling="no"></iframe>
-    </div>
-
-    <div class="search-area">
-        <form action="/" method="GET">
-            <input type="text" name="category" class="search-input" placeholder="SEARCH SYSTEM DATA (e.g. NIFTY, CRYPTO)...">
-        </form>
-    </div>
-
     <div class="container">
+        <div style="margin-bottom:20px;">
+            <iframe src="https://s.tradingview.com/embed-widget/ticker-tape/?locale=in#%7B%22symbols%22%3A%5B%7B%22proName%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22title%22%3A%22BTC%22%7D%2C%7B%22proName%22%3A%22FX_IDC%3AEURUSD%22%2C%22title%22%3A%22EURUSD%22%7D%5D%2C%22colorTheme%22%3A%22dark%22%7D" width="100%" height="46" frameborder="0"></iframe>
+        </div>
+
         {% for a in articles %}
         <div class="news-card">
             <img src="{{ a.urlToImage }}" class="news-img" onerror="this.src='https://images.unsplash.com/photo-1611974714024-462002ca0c71?w=500'">
             <div class="card-body">
-                <p class="news-date">TIMESTAMP: {{ a.publishedAt }}</p>
-                <h3 style="font-size: 16px; margin: 0; line-height: 1.4;">{{ a.title }}</h3>
+                <p style="font-size:9px; color:var(--blue);">DATE: {{ a.publishedAt }}</p>
+                <h3 style="font-size:14px; margin:5px 0;">{{ a.title }}</h3>
                 
-                <button class="ai-btn" onclick="runAI('{{ loop.index }}', '{{ a.description|replace("'", "")|replace('"', '') }}')">⚡ ANALYZE DATA</button>
-                
-                <a href="{{ a.url }}" target="_blank" style="text-decoration: none;">
-                    <button class="ai-btn source-btn">📖 READ FULL SOURCE</button>
-                </a>
-
+                <div class="btn-group">
+                    <button class="btn btn-ai" onclick="runAI('{{ loop.index }}', '{{ a.description|replace("'", "") }}')">⚡ AI ANALYZE</button>
+                    
+                    {% if a.type == 'forex' %}
+                        <a href="https://www.bybit.com/invite?ref=0OOXRW2" class="btn btn-bybit" target="_blank">TRADE ON BYBIT</a>
+                    {% elif a.type == 'crypto' %}
+                        <a href="https://www.binance.com/referral/earn-together/refer2earn-usdc/claim?hl=en&ref=GRO_28502_M5ACJ" class="btn btn-binance" target="_blank">BINANCE</a>
+                        <a href="https://www.kucoin.com/r/rf/CX8HQMGH" class="btn btn-kucoin" target="_blank">KUCOIN</a>
+                    {% else %}
+                        <a href="https://www.instagram.com/pintu_rajput0777" class="btn btn-social" target="_blank">FOLLOW PIYUSH</a>
+                    {% endif %}
+                </div>
                 <div id="ai-{{ loop.index }}" class="ai-terminal"></div>
             </div>
         </div>
-
         {% if loop.index % 3 == 0 %}
-        <div style="text-align:center; margin-bottom:20px;">
             <script>(function(s){s.dataset.zone='10910514',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-        </div>
         {% endif %}
         {% endfor %}
     </div>
 
     <script>
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
-        
-        // Matrix Effect
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$¥€";
-        const drops = Array(Math.floor(canvas.width/10)).fill(1);
-        function draw() {
-            ctx.fillStyle = "rgba(5, 10, 15, 0.1)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#00d2ff";
-            ctx.font = "10px Share Tech Mono";
-            drops.forEach((y, i) => {
-                ctx.fillText(letters[Math.floor(Math.random()*letters.length)], i*10, y*10);
-                if(y*10 > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            });
-        }
-        setInterval(draw, 50);
-
         function runAI(id, text) {
             const box = document.getElementById('ai-'+id);
             box.style.display = "block";
-            box.innerHTML = "> INITIALIZING HEURISTIC ANALYSIS...";
-            
+            box.innerHTML = "> ANALYZING DATA...";
             fetch('/analyze', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({summary: text})
             }).then(res => res.json()).then(data => {
-                let i = 0; 
-                let fullText = "[JARVIS]: " + data.result; 
-                box.innerHTML = "";
-                function type() { 
-                    if(i < fullText.length) { 
-                        box.innerHTML += fullText.charAt(i); 
-                        i++; 
-                        setTimeout(type, 25); 
-                    } 
-                }
+                let i = 0; box.innerHTML = "";
+                function type() { if(i < data.result.length) { box.innerHTML += data.result.charAt(i); i++; setTimeout(type, 20); } }
                 type();
-                const msg = new SpeechSynthesisUtterance(data.result);
-                msg.pitch = 0.8; msg.rate = 0.9;
-                speechSynthesis.speak(msg);
+                speechSynthesis.speak(new SpeechSynthesisUtterance(data.result));
             });
         }
+        // Matrix BG
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const drops = Array(Math.floor(canvas.width/10)).fill(1);
+        function draw() {
+            ctx.fillStyle = "rgba(5, 10, 15, 0.1)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00d2ff";
+            drops.forEach((y, i) => {
+                ctx.fillText("01", i*10, y*10);
+                if(y*10 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            });
+        }
+        setInterval(draw, 50);
     </script>
 </body>
 </html>
